@@ -37,7 +37,6 @@ class Prueba {
 
 		def dsl= new Dsl()
 		dsl.definir {
-			
 			un Objeto llamado "pepe" de la clase Persona por accessors
 			
 			con la propiedad "nombre" teniendo como valor "pepe"
@@ -50,6 +49,11 @@ class Prueba {
 			y ademas con la propiedad "nombre" teniendo como valor "gorge"
 			y ademas con la propiedad "vive" teniendo como valor true
 		}
+		
+		/* Nos debería quedar así la configuración y no como un static!
+		*  config = dsl.dameConfiguracionPara("produccion")
+		*/
+		
 		Persona fiestera = (Persona)config.getBean("pepe")
 		Persona fiestero = (Persona) config.getBean("el tio")
 		Assert.assertEquals("pepe", fiestera.getNombre())
