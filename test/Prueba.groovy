@@ -6,25 +6,8 @@ import org.junit.Test;
 import static Dsl.*;
 class Prueba {
 
-	//@Test
-	public void test1() {
-		
-		def dsl= new Dsl()
-
-		dsl.beanId "pepo" clase Persona propertyName "nombre" tipo String valor "pepe" propertyName "edad" tipo int valor 100 propertyName "vive" tipo boolean valor true
-		dsl.beanId "el tio" clase Persona propertyName "nombre" tipo String  valor "gorge" propertyName "edad" tipo int valor 100
-		
-		Persona fiestera = (Persona) config.getBean("pepo")
-		Persona fiestero = (Persona) config.getBean("el tio")
-		Assert.assertEquals("pepe", fiestera.getNombre())
-		Assert.assertEquals("gorge", fiestero.getNombre())
-		Assert.assertEquals(100, fiestera.getEdad())
-		Assert.assertEquals(true, fiestera.getVive())
-	}
-
-//	con las propiedades ["nombre","edad"] de valores ["pepe",100]
 	@Test
-	public void test3() {
+	public void testDSLFuncional() {
 
 		def dsl= new Dsl()
 		dsl.definir {
@@ -49,9 +32,34 @@ class Prueba {
 		Assert.assertEquals("gorge", fiestero.getNombre())
 		Assert.assertEquals("gorge", fiestera.getConocido().getNombre())
 	}
-	
 	@Test
-	public void test2() {
+	public void testDSLConListas() {
+
+		def dsl= new Dsl()
+		dsl.definir {
+			
+			un Objeto llamado "pepe" de la clase Persona por accessors
+			
+			con la propiedad "nombre" teniendo como valor "pepe"
+			
+			y ademas con las propiedades {["edad","vive"]} teniendo como valores {[100,true]}
+			que conoce mediante "conocido" a "el tio"
+			
+			
+			un Objeto llamado "el tio" de la clase Persona
+			y ademas con la propiedad "nombre" teniendo como valor "gorge"
+			y ademas con la propiedad "vive" teniendo como valor true
+		}
+		Persona fiestera = (Persona)config.getBean("pepe")
+		Persona fiestero = (Persona) config.getBean("el tio")
+		Assert.assertEquals("pepe", fiestera.getNombre())
+		Assert.assertEquals(100, fiestera.getEdad())
+		Assert.assertEquals(true, fiestero.getVive())
+		Assert.assertEquals("gorge", fiestero.getNombre())
+		Assert.assertEquals("gorge", fiestera.getConocido().getNombre())
+	}
+	@Test
+	public void testDSLTipoXML() {
 
 		def dsl= new Dsl()
 		dsl.definir {

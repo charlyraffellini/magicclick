@@ -16,6 +16,7 @@ class Dsl {
 	def nombre
 	def obj
 	def prop
+	def listaDePropiedades
 	def tipo
 
 //		def propertyMissing(String name){
@@ -31,6 +32,7 @@ class Dsl {
 	static Configuracion config = new Configuracion();
 	def static Objeto = "Objeto"
 	def static la = "la"
+	def static las = "las"
 	def static conoce = "conoce"
 	def static como = "como"
 	def static ademas = "esto es fruta"
@@ -48,6 +50,11 @@ class Dsl {
 	
 	public propiedad (String propertyName){
 		this.prop= propertyName
+		this
+	}
+	
+	public propiedades (unaLista){
+		this.listaDePropiedades = unaLista()
 		this
 	}
 	
@@ -96,6 +103,11 @@ class Dsl {
 	public tipo ( Class  c){
 		this.tipo= c
 		return this
+	}
+	
+	public valores (unaListaDeValores){
+		def unMapa = [this.listaDePropiedades, unaListaDeValores()].transpose().inject([:]) { a, b -> a[b[0]] = b[1]; a } 
+		unMapa.each {clave, valor -> this.prop = clave; this.valor(valor)}
 	}
 	
 	public valor(String unString){
