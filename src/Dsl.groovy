@@ -62,7 +62,7 @@ class Dsl {
 	}
 
 	public clase(Class t){
-		obj= new Compleja <Persona>(t)
+		obj= new Compleja (t)
 		config.addBean(nombre, obj)
 		return this
 	}
