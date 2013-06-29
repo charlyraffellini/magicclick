@@ -19,16 +19,6 @@ class Dsl {
 	def listaDePropiedades
 	def tipo
 
-//		def propertyMissing(String name){
-//			if (name=="valor"){
-//				invokeMethod(name, valor)
-//			}
-//			else{
-//				throw new MissingPropertyException("No se encuentra la propiedad " + name)
-//			}
-//		}
-
-
 	static Configuracion config = new Configuracion();
 	def static Objeto = "Objeto"
 	def static la = "la"
@@ -38,6 +28,10 @@ class Dsl {
 	def static ademas = "esto es fruta"
 	def static constructor = "constructor"
 	def static accessors = "accessors"
+	
+	def methodMissing (String stringName, args){
+		this
+	}
 	
 	public llamado (String nombreDelObjeto){
 		this.nombre= nombreDelObjeto
@@ -57,29 +51,7 @@ class Dsl {
 		this.listaDePropiedades = unaLista()
 		this
 	}
-	
-	public con (String n){
-		this
-	}
-
-	public teniendo (String n){
-		this
-	}
-	
-	public de (String n){
-		this
-	}
-	public que (String n){
-		this
-	}
-	public un (String n){
-		this	
-	}
-	
-	public y (String n){
-		this
-	}
-	
+		
 	public beanId(String n) {
 		this.nombre= n
 		return this
@@ -122,12 +94,6 @@ class Dsl {
 		obj.addDependencia(prop, new Primitiva(boolean, unBoolean))
 	}
 	
-//	public valor(n){
-//
-//			obj.addDependencia(prop, new Bean( n,config))
-//
-//		return this
-//	}
 	public a (String unBeanName){
 		obj.addDependencia(prop, new Bean( unBeanName,config))
 		this
