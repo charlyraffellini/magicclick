@@ -1,10 +1,12 @@
 import java.beans.java_awt_BorderLayout_PersistenceDelegate;
 import java.lang.reflect.Type
+import java.util.ArrayList;
 
 import org.apache.ivy.core.module.descriptor.ExtendsDescriptor;
 
 import utn.tadp.fontana.Bean;
 import utn.tadp.fontana.Compleja;
+import utn.tadp.fontana.Lista;
 import utn.tadp.fontana.Primitiva;
 import utn.tadp.fontana.configuracion.Configuracion;
 import utn.tadp.fontana.estrategia.Inicializacion;
@@ -20,7 +22,7 @@ class Dsl {
 	def listaDePropiedades
 	def tipo
 
-	static Configuracion config = new Configuracion();
+	def Configuracion config;
 	def static Objeto = "Objeto"
 	def static la = "la"
 	def static las = "las"
@@ -29,7 +31,7 @@ class Dsl {
 	def static ademas = "esto es fruta"
 	def static constructor = { new InicializacionPorConstructor() }
 	def static accessors = { new InicializacionPorSetters() }
-
+	
 	def methodMissing (String stringName, args){
 		this
 	}
@@ -59,6 +61,7 @@ class Dsl {
 	}
 
 	public definir(Closure bloq) {
+		this.config  = new Configuracion()
 		this.with bloq
 	}
 
@@ -86,6 +89,26 @@ class Dsl {
 		unMapa.each {clave, valor -> this.prop = clave; this.valor(valor)}
 	}
 
+	public valor(Closure unaLista){
+		def coleccionDeValores = new Lista(ArrayList.class);
+		unaLista().each{
+			coleccionDeValores.addDependenciaALaLista(this.devolverPrimitiva(it))
+		}
+		obj.addDependencia(prop,coleccionDeValores)
+	}
+	
+	private devolverPrimitiva(String unString){
+		new Primitiva(String, unString)
+	}
+
+	private devolverPrimitiva(int unEntero){
+		new Primitiva(String, unString)
+	}
+	
+	private devolverPrimitiva(boolean unBoolean){
+		new Primitiva(String, unBoolean)
+	}
+	
 	public valor(String unString){
 		obj.addDependencia(prop, new Primitiva(String, unString))
 	}
