@@ -102,25 +102,17 @@ class Dsl {
 	}
 
 	private devolverPrimitiva(int unEntero){
-		new Primitiva(String, unString)
+		new Primitiva(int, unEntero)
 	}
 	
 	private devolverPrimitiva(boolean unBoolean){
-		new Primitiva(String, unBoolean)
+		new Primitiva(boolean, unBoolean)
 	}
 	
-	public valor(String unString){
-		obj.addDependencia(prop, new Primitiva(String, unString))
+	public valor (unValor){
+		obj.addDependencia(prop,this.devolverPrimitiva(unValor))
 	}
-
-	public valor(int unEntero){
-		obj.addDependencia(prop, new Primitiva(int, unEntero))
-	}
-
-	public valor(boolean unBoolean){
-		obj.addDependencia(prop, new Primitiva(boolean, unBoolean))
-	}
-
+	
 	public a (String unBeanName){
 		obj.addDependencia(prop, new Bean( unBeanName,config))
 		this
