@@ -21,13 +21,30 @@ class Dsl {
 	def prop
 	def listaDePropiedades
 	def tipo
-
-	def Configuracion config;
+	def seleccionado = "default"
+	def mapaDeConfiguraciones = [:]
+	
+	def config = {  
+										
+					def unaConfiguracion = delegate.mapaDeConfiguraciones.get(delegate.seleccionado) 
+					if (unaConfiguracion)
+					{
+						return unaConfiguracion
+					}
+					else
+					{
+						def current = new Configuracion()
+						delegate.mapaDeConfiguraciones.put(seleccionado, current)
+						return current
+						
+					}
+	};
 	def static Objeto = "Objeto"
 	def static la = "la"
 	def static las = "las"
 	def static conoce = "conoce"
 	def static como = "como"
+	def static crear = "crear"
 	def static ademas = "esto es fruta"
 	def static constructor = { new InicializacionPorConstructor() }
 	def static accessors = { new InicializacionPorSetters() }
@@ -61,13 +78,13 @@ class Dsl {
 	}
 
 	public definir(Closure bloq) {
-		this.config  = new Configuracion()
+		//this.config  = new Configuracion()
 		this.with bloq
 	}
 
 	public clase(Class t){
 		obj= new Compleja (t)
-		config.addBean(nombre, obj)
+		config().addBean(nombre, obj)
 		return this
 	}
 
@@ -114,12 +131,20 @@ class Dsl {
 	}
 	
 	public a (String unBeanName){
-		obj.addDependencia(prop, new Bean( unBeanName,config))
+		obj.addDependencia(prop, new Bean( unBeanName,config()))
 		this
 	}
 
 	public por(Closure inicializacionFactory) {
 		Inicializacion inicializacion = inicializacionFactory()
 		inicializacion.setMiDependenciaCompleja(obj)
+	}
+	public configuracion(String unNombreDeConfiguracion){
+		this.seleccionado = unNombreDeConfiguracion
+		this
+	}
+	public dameConfig(String unNombreDeConfiguracion){
+		this.configuracion(unNombreDeConfiguracion)
+		config()
 	}
 }

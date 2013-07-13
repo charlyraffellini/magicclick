@@ -19,30 +19,27 @@ class Prueba {
 		def dsl= new Dsl()
 		dsl.definir {
 			
-			un Objeto llamado "pepe" de la clase Persona por accessors
+			para la configuracion "prueba" debe crear un Objeto llamado "pepe" de la clase Persona por accessors
 			
 			con la propiedad "nombre" teniendo como valor "pepe"
 			y ademas con la propiedad "edad" teniendo como valor 100
 			y ademas con la propiedad "vive" teniendo como valor true
 
-		}
-		
-		def unaConfiguracion = dsl.config
-		Persona unaPersona = (Persona)unaConfiguracion.getBean("pepe")
-		Assert.assertEquals("pepe", unaPersona.getNombre())
-		Assert.assertEquals(100, unaPersona.getEdad())
-		
-		dsl.definir {
-			
-			un Objeto llamado "pepe" de la clase Persona por accessors
+			para la configuracion "produccion" un Objeto llamado "pepe" de la clase Persona por accessors
 			
 			con la propiedad "nombre" teniendo como valor "pepe"
 			y ademas con la propiedad "edad" teniendo como valor 50
 			y ademas con la propiedad "vive" teniendo como valor false
 
 		}
-		def otraConfiguracion = dsl.config
-		Persona otraPersona = (Persona)otraConfiguracion.getBean("pepe")
+		
+		def unaConfiguracion = dsl.dameConfig("prueba")
+		Persona unaPersona = (Persona)unaConfiguracion.getBean("pepe")
+		Assert.assertEquals("pepe", unaPersona.getNombre())
+		Assert.assertEquals(100, unaPersona.getEdad())
+		
+		unaConfiguracion = dsl.dameConfig("produccion")
+		Persona otraPersona = (Persona)unaConfiguracion.getBean("pepe")
 		Assert.assertEquals("pepe", otraPersona.getNombre())
 		Assert.assertEquals(50, otraPersona.getEdad())
 	}
@@ -65,7 +62,7 @@ class Prueba {
 			y ademas con la propiedad "nombre" teniendo como valor "gorge"
 			y ademas con la propiedad "vive" teniendo como valor true
 		}
-		def unaConfiguracion = dsl.config
+		def unaConfiguracion =  dsl.dameConfig("default")
 		Persona fiestera = (Persona)unaConfiguracion.getBean("pepe")
 		Persona fiestero = (Persona) unaConfiguracion.getBean("el tio")
 		Assert.assertEquals("pepe", fiestera.getNombre())
@@ -88,7 +85,7 @@ class Prueba {
 			y ademas con la propiedad "apodos" teniendo como valor {['unApodo','otroApodo']}
 			
 		}
-		def unaConfiguracion = dsl.config
+		def unaConfiguracion =  dsl.dameConfig("default")
 		Persona unaPersona = (Persona)unaConfiguracion.getBean("pepe")
 		Assert.assertEquals("pepe", unaPersona.getNombre());
 		ArrayList<String> losApodos = new ArrayList<String>();
@@ -118,7 +115,7 @@ class Prueba {
 		/* Nos debería quedar así la configuración y no como un static!
 		*  config = dsl.dameConfiguracionPara("produccion")
 		*/
-		def unaConfiguracion = dsl.config
+		def unaConfiguracion = dsl.dameConfig("default")
 		Persona fiestera = (Persona)unaConfiguracion.getBean("pepe")
 		Persona fiestero = (Persona) unaConfiguracion.getBean("el tio")
 		Assert.assertEquals("pepe", fiestera.getNombre())
@@ -149,7 +146,7 @@ class Prueba {
 			propertyName "vive"      tipo boolean   valor true
 		}
 
-		def unaConfiguracion = dsl.config
+		def unaConfiguracion = dsl.dameConfig("default")
 		Persona fiestera = (Persona)unaConfiguracion.getBean("pepo")
 		Persona fiestero = (Persona) unaConfiguracion.getBean("el tio")
 		Assert.assertEquals("pepe", fiestera.getNombre())
