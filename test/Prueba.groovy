@@ -37,6 +37,11 @@ class Prueba {
 		Persona unaPersona = (Persona)unaConfiguracion.getBean("pepe")
 		Assert.assertEquals("pepe", unaPersona.getNombre())
 		Assert.assertEquals(100, unaPersona.getEdad())
+
+		//otra notación mas .... cool XD 
+		Persona unaPersonaCool = dsl.dameBean("prueba", "pepe")
+		Assert.assertEquals("pepe", unaPersonaCool.getNombre())
+		Assert.assertEquals(100, unaPersonaCool.getEdad())
 		
 		unaConfiguracion = dsl.dameConfig("produccion")
 		Persona otraPersona = (Persona)unaConfiguracion.getBean("pepe")

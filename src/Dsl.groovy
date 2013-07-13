@@ -147,4 +147,7 @@ class Dsl {
 		this.configuracion(unNombreDeConfiguracion)
 		config()
 	}
+	public dameBean(String unNombreDeConfiguracion, String unNombreDelBean){
+		this.dameConfig(unNombreDeConfiguracion).getBean(unNombreDelBean)
+	}
 }
