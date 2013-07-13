@@ -23,19 +23,24 @@ class Dsl {
 	def tipo
 	def seleccionado = "default"
 	def mapaDeConfiguraciones = [:]
+	def static modif = {Map.metaClass {
+					putEficiente = { K, V -> def value = V
+						put(K, V)
+						return value
+					}  	
+			}	
+	}
 	
 	def config = {  
 										
-					def unaConfiguracion = delegate.mapaDeConfiguraciones.get(delegate.seleccionado) 
+					def unaConfiguracion = mapaDeConfiguraciones.get(seleccionado) 
 					if (unaConfiguracion)
 					{
 						return unaConfiguracion
 					}
 					else
 					{
-						def current = new Configuracion()
-						delegate.mapaDeConfiguraciones.put(seleccionado, current)
-						return current
+						return delegate.mapaDeConfiguraciones.putEficiente(seleccionado, new Configuracion())
 						
 					}
 	};
@@ -79,6 +84,7 @@ class Dsl {
 
 	public definir(Closure bloq) {
 		//this.config  = new Configuracion()
+		this.modif()
 		this.with bloq
 	}
 
